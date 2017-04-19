@@ -6,10 +6,8 @@
     <!-- 为DAO接口方法提供sql语句配置 -->
     <update id="reduceNumber">
         <!-- 具体的sql语句 -->
-        update
-        seckill
-        set
-        number = number - 1
+        update seckill
+        set number = number - 1
         where seckill_id = #{seckillId}
         and start_time <![CDATA[ <= ]]> #{killTime}
         and end_time >= #{killTime}

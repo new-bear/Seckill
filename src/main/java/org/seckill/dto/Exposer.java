@@ -5,7 +5,6 @@ package org.seckill.dto;
  * Created by jiax on 2016/6/15.
  */
 public class Exposer {
-
     //是否开启秒杀
     private boolean exposed;
 

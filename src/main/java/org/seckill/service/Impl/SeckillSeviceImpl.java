@@ -61,21 +61,23 @@ public class SeckillSeviceImpl implements SeckillService {
         Seckill seckill = redisDao.getSeckill(seckillId);   // 1. 访问Redis
         if (seckill == null) {
             seckill = seckillDao.queryById(seckillId);      // 2. 访问数据库
-            if (seckill != null) {
-                String result = redisDao.putSeckill(seckill);   // 3. 放入Redis
+            if (seckill == null) {
+                return new Exposer(false, seckillId);
+            } else {
+                redisDao.putSeckill(seckill);   // 3. 放入Redis
             }
         }
 
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
         Date nowTime = new Date();
-        if (nowTime.before(startTime) || nowTime.after(endTime)) {
-            return new Exposer(false,seckillId,nowTime.getTime(),startTime.getTime(),endTime.getTime());
+        if (nowTime.before(startTime) || nowTime.after(endTime)) {      // 当前不在秒杀时间
+            return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
 
         //md5：转化特定字符串的过程，不可逆
         String md5 = getMD5(seckillId);
-        return new Exposer(true,md5,seckillId);
+        return new Exposer(true, md5, seckillId);   // 返回秒杀接口Url
     }
 
     private String getMD5(long seckillId){

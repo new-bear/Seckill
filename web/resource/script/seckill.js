@@ -127,8 +127,8 @@ var seckill = {
             seckillBox.html('秒杀结束!');
         } else if (nowTime < startTime) {
             //秒杀未开始,计时事件绑定
-            var killTime = new Date(startTime + 1000);
-            seckillBox.countdown(killTime, function (event) {       //countdown为jquery计时函数
+            var killTime = new Date(startTime + 1000);              // 本地倒计时
+            seckillBox.countdown(killTime, function (event) {       // countdown为jquery计时函数
                 //时间格式
                 var format = event.strftime('秒杀倒计时: %D天 %H时 %M分 %S秒 ');
                 seckillBox.html(format);
